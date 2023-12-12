@@ -14,8 +14,6 @@ data class UserInformationResponse(
     val employmentStatus: EmploymentStatus,
     val occupation: Occupation,
     val participationPurpose: ParticipationPurpose,
-//    val careerExperiences: List<CareerExperience>,
-//    val projectExperiences: List<ProjectExperience>,
     val keywords: List<String>,
     val strengths: List<String>,
     val skills: List<String>,
@@ -23,6 +21,4 @@ data class UserInformationResponse(
     val updatedAt: LocalDateTime,
 ) {
     data class User(val id: Long, val name: String, val teamBuildingStatus: TeamBuildingStatus)
-    data class CareerExperience(val startYear: Int, val endYear: Int, val companyName: String, val description: String)
-    data class ProjectExperience(val startYear: Int, val endYear: Int, val projectName: String, val description: String)
 }
