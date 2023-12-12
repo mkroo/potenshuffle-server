@@ -13,6 +13,6 @@ class JsonWebTokenDeniedHandler : AccessDeniedHandler {
         response: HttpServletResponse,
         accessDeniedException: AccessDeniedException,
     ) {
-        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.message);
+        response.sendError(HttpServletResponse.SC_FORBIDDEN, accessDeniedException.message)
     }
 }
