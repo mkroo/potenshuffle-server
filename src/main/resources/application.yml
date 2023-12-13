@@ -23,3 +23,6 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+naver-cloud-platform:
+  clova-studio-api-key:
+  api-gateway-api-key:
