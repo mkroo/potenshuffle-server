@@ -1,6 +1,5 @@
 package best.beside.ctrl.teambuilder.application
 
-import best.beside.ctrl.teambuilder.domain.dto.ReceivedTeamOffer
 import best.beside.ctrl.teambuilder.domain.dto.SentTeamOffer
 import best.beside.ctrl.teambuilder.domain.entity.TeamOffer
 import best.beside.ctrl.teambuilder.domain.repository.TeamOfferRepository

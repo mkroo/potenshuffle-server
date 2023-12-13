@@ -1,8 +1,5 @@
 package best.beside.ctrl.teambuilder.domain.entity
 
-import best.beside.ctrl.teambuilder.domain.type.EmploymentStatus
-import best.beside.ctrl.teambuilder.domain.type.Occupation
-import best.beside.ctrl.teambuilder.domain.type.ParticipationPurpose
 import best.beside.ctrl.teambuilder.domain.type.TeamBuildingStatus
 import jakarta.persistence.*
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
