@@ -9,6 +9,7 @@ import java.time.LocalDateTime
 data class UserInformationResponse(
     val user: User,
     val briefIntroduction: String,
+    val introduction: String,
     val preferredTeamMember: String,
     val availableParticipationTime: String,
     val employmentStatus: EmploymentStatus,

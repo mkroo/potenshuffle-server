@@ -47,6 +47,7 @@ class UserInformationService(
                 entity.user.teamBuildingStatus
             ),
             briefIntroduction = entity.briefIntroduction,
+            introduction = entity.introduction,
             preferredTeamMember = entity.preferredTeamMember,
             availableParticipationTime = entity.availableParticipationTime,
             employmentStatus = entity.employmentStatus,
@@ -64,6 +65,7 @@ class UserInformationService(
         return UserInformation(
             user = user,
             briefIntroduction = "",
+            introduction = "",
             preferredTeamMember = "",
             availableParticipationTime = "",
             employmentStatus = EmploymentStatus.NONE,

@@ -16,6 +16,6 @@ class User(
     @Column(nullable = false)
     val passwordHash: String = BCryptPasswordEncoder().encode(password)
 
-    @OneToOne
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val information: UserInformation? = null
 }

@@ -9,8 +9,16 @@ import jakarta.persistence.*
 @Entity
 class UserInformation(
     @OneToOne
+    @JoinColumn(
+        name="user_id",
+        unique=true,
+        nullable=false,
+        updatable=false
+    )
     val user: User,
     var briefIntroduction: String,
+    @Column(columnDefinition = "TEXT")
+    var introduction: String,
     var preferredTeamMember: String,
     var availableParticipationTime: String,
     @Enumerated(value = EnumType.STRING)
@@ -31,6 +39,7 @@ class UserInformation(
 ) : PrimaryKeyEntity() {
     fun update(params: UserInformationParams) {
         params.briefIntroduction?.let { briefIntroduction = it }
+        params.introduction?.let { introduction = it }
         params.preferredTeamMember?.let { preferredTeamMember = it }
         params.availableParticipationTime?.let { availableParticipationTime = it }
         params.employmentStatus?.let { employmentStatus = it }
