@@ -12,7 +12,7 @@ data class ReceivedTeamOffer(
     val status: TeamOfferStatus,
     val receivedAt: LocalDateTime,
 ) {
-    data class SentUser(val id: Long, val name: String, val card: SentUserCard)
+    data class SentUser(val id: Long, val name: String, val card: SentUserCard?)
     data class SentUserCard(
         val occupation: Occupation,
         val employmentStatus: EmploymentStatus,

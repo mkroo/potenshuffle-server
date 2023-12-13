@@ -1,5 +1,6 @@
 package best.beside.ctrl.teambuilder.application
 
+import best.beside.ctrl.teambuilder.domain.dto.ReceivedTeamOffer
 import best.beside.ctrl.teambuilder.domain.dto.SentTeamOffer
 import best.beside.ctrl.teambuilder.domain.entity.TeamOffer
 import best.beside.ctrl.teambuilder.domain.repository.TeamOfferRepository
@@ -29,12 +30,14 @@ class SentTeamOfferService(
             receivedUser = SentTeamOffer.ReceivedUser(
                 id = teamOffer.receivedUser.id,
                 name = teamOffer.receivedUser.name,
-                card = SentTeamOffer.ReceivedUserCard(
-                    occupation = teamOffer.receivedUser.information.occupation,
-                    employmentStatus = teamOffer.receivedUser.information.employmentStatus,
-                    keywords = teamOffer.receivedUser.information.keywords,
-                    briefIntroduction = teamOffer.receivedUser.information.briefIntroduction,
-                ),
+                card = teamOffer.sentUser.information?.let {
+                    SentTeamOffer.ReceivedUserCard(
+                        occupation = it.occupation,
+                        employmentStatus = it.employmentStatus,
+                        keywords = it.keywords,
+                        briefIntroduction = it.briefIntroduction,
+                    )
+                },
             ),
             status = teamOffer.status,
             sentAt = teamOffer.createdAt,

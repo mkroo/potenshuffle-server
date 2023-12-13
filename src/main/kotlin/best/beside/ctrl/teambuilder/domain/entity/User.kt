@@ -20,22 +20,5 @@ class User(
     val passwordHash: String = BCryptPasswordEncoder().encode(password)
 
     @OneToOne
-    val information: UserInformation = emptyUserInformation(this)
-
-    private
-
-    fun emptyUserInformation(user: User): UserInformation {
-        return UserInformation(
-            user = user,
-            briefIntroduction = "",
-            preferredTeamMember = "",
-            availableParticipationTime = "",
-            employmentStatus = EmploymentStatus.NONE,
-            occupation = Occupation.NONE,
-            participationPurpose = ParticipationPurpose.NONE,
-            keywords = listOf(),
-            strengths = listOf(),
-            skills = listOf(),
-        )
-    }
+    val information: UserInformation? = null
 }

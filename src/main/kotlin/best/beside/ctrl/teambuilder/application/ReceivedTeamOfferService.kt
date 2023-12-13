@@ -43,12 +43,14 @@ class ReceivedTeamOfferService(
             sentUser = ReceivedTeamOffer.SentUser(
                 id = teamOffer.sentUser.id,
                 name = teamOffer.sentUser.name,
-                card = ReceivedTeamOffer.SentUserCard(
-                    occupation = teamOffer.sentUser.information.occupation,
-                    employmentStatus = teamOffer.sentUser.information.employmentStatus,
-                    keywords = teamOffer.sentUser.information.keywords,
-                    briefIntroduction = teamOffer.sentUser.information.briefIntroduction,
-                ),
+                card = teamOffer.sentUser.information?.let {
+                    ReceivedTeamOffer.SentUserCard(
+                        occupation = it.occupation,
+                        employmentStatus = it.employmentStatus,
+                        keywords = it.keywords,
+                        briefIntroduction = it.briefIntroduction,
+                    )
+                },
             ),
             status = teamOffer.status,
             receivedAt = teamOffer.createdAt,
