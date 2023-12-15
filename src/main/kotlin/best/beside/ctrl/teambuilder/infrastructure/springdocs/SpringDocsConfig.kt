@@ -1,4 +1,4 @@
-package best.beside.ctrl.teambuilder.infrastructure.springDocs
+package best.beside.ctrl.teambuilder.infrastructure.springdocs
 
 import io.swagger.v3.oas.models.Components
 import io.swagger.v3.oas.models.OpenAPI
