@@ -26,7 +26,6 @@ class SecurityConfig(
                 it.disable()
             }
             .httpBasic { it.disable() }
-            .cors { it.disable() }
             .headers {
                 it.frameOptions { frameOptions -> frameOptions.disable() }
             }
