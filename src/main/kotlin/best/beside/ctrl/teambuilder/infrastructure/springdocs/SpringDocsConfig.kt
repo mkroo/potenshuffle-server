@@ -14,7 +14,7 @@ class SpringDocsConfig {
     @Bean
     fun openAPI(): OpenAPI {
         val contact = Contact()
-            .name("mkroo")
+            .name("Munki Shin")
             .email("ansrl0107@gmail.com")
 
         val info = Info()
