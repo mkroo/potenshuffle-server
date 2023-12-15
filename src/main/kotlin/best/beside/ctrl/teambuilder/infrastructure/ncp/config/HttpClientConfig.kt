@@ -1,4 +1,4 @@
-package best.beside.ctrl.teambuilder.infrastructure.ncp
+package best.beside.ctrl.teambuilder.infrastructure.ncp.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -15,8 +15,7 @@ class HttpClientConfig(
     fun clovaStudioClient(builder: RestClient.Builder): ClovaStudioClient {
         val client = builder
             .baseUrl("https://clovastudio.stream.ntruss.com")
-            .defaultHeader("X-NCP-CLOVASTUDIO-API-KEY", properties.clovaStudioApiKey)
-            .defaultHeader("X-NCP-APIGW-API-KEY", properties.apiGatewayApiKey)
+            .defaultHeader("X-NCP-APIGW-API-KEY", properties.apiGatewayKey)
             .defaultHeader(HttpHeaders.ACCEPT, "application/json")
             .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/json")
             .build()
