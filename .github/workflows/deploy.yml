@@ -38,7 +38,7 @@ jobs:
           port: ${{ secrets.REMOTE_SSH_PORT }}
           script: |
             echo "deploy start"
-            docker pull ansrl0107/team-builder:latest
+            docker pull ansrl0107/team-builder:0.0.1
             docker compose down
             docker compose up -d
             echo "deploy finished"
