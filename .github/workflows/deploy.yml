@@ -1,11 +1,11 @@
-name: Deploy on remove server
+name: Deploy on remote server
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -28,9 +28,6 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew jib
 
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
       - name: Deploy at remove ssh
         uses: appleboy/ssh-action@master
         with:
