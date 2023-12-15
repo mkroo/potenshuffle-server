@@ -8,7 +8,6 @@ import best.beside.ctrl.teambuilder.domain.repository.UserInformationRepository
 import best.beside.ctrl.teambuilder.domain.repository.UserRepository
 import best.beside.ctrl.teambuilder.domain.type.EmploymentStatus
 import best.beside.ctrl.teambuilder.domain.type.Occupation
-import best.beside.ctrl.teambuilder.domain.type.ParticipationPurpose
 import org.springframework.stereotype.Service
 
 @Service
@@ -46,10 +45,11 @@ class UserInformationService(
                 entity.user.name,
                 entity.user.teamBuildingStatus
             ),
+            occupation = entity.occupation,
+            employmentStatus = entity.employmentStatus,
+            keywords = entity.keywords,
             briefIntroduction = entity.briefIntroduction,
             introduction = entity.introduction,
-            occupation = entity.occupation,
-            keywords = entity.keywords,
             createdAt = entity.createdAt,
             updatedAt = entity.updatedAt,
         )
@@ -58,16 +58,11 @@ class UserInformationService(
     fun emptyUserInformation(user: User): UserInformation {
         return UserInformation(
             user = user,
+            occupation = Occupation.NONE,
+            employmentStatus = EmploymentStatus.NONE,
+            keywords = listOf(),
             briefIntroduction = "",
             introduction = "",
-            preferredTeamMember = "",
-            availableParticipationTime = "",
-            employmentStatus = EmploymentStatus.NONE,
-            occupation = Occupation.NONE,
-            participationPurpose = ParticipationPurpose.NONE,
-            keywords = listOf(),
-            strengths = listOf(),
-            skills = listOf(),
         )
     }
 }
