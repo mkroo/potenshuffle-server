@@ -10,11 +10,12 @@ class User(
     val name: String,
     @Transient
     val password: String,
-    @Enumerated(value = EnumType.STRING)
-    var teamBuildingStatus: TeamBuildingStatus = TeamBuildingStatus.WAITING,
 ) : PrimaryKeyEntity() {
     @Column(nullable = false)
     val passwordHash: String = BCryptPasswordEncoder().encode(password)
+
+    @Enumerated(value = EnumType.STRING)
+    var teamBuildingStatus: TeamBuildingStatus = TeamBuildingStatus.WAITING
 
     @OneToOne(mappedBy = "user")
     val information: UserInformation? = null
@@ -26,27 +27,15 @@ class User(
     val team: Team?
         get() = teamMember?.team
 
-    fun inviteTeamMember(user: User) {
-        user.checkTeamParticipationPossible()
-
-        val team = findOrCreateTeam()
-        team.addMember(user)
-    }
-
-    private fun findOrCreateTeam(): Team {
-        return team ?: Team("임시 팀 이름").apply { addMember(this@User) }
-    }
-
-    private fun checkTeamParticipationPossible() {
-        if (isTeamParticipationPossible()) return
-
-        throw IllegalStateException("이미 팀 빌딩 중인 유저입니다.")
-    }
-
     private fun isTeamParticipationPossible(): Boolean {
         if (teamBuildingStatus == TeamBuildingStatus.COMPLETED) return false
         if (team != null) return false
 
         return true
+    }
+
+    @PreUpdate
+    fun updateTeamBuildingStatus() {
+        teamBuildingStatus = team?.buildingStatus ?: TeamBuildingStatus.WAITING
     }
 }

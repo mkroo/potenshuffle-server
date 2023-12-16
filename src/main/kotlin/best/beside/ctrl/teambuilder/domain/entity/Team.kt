@@ -18,12 +18,10 @@ class Team(
 
     fun addMember(user: User) {
         teamMembers.plus(TeamMember(this, user))
-        user.teamBuildingStatus = TeamBuildingStatus.IN_PROGRESS
     }
 
     fun leave(user: User): User {
         teamMembers.minus(TeamMember(this, user))
-        user.teamBuildingStatus = TeamBuildingStatus.WAITING
 
         return user
     }
@@ -42,4 +40,19 @@ class Team(
     fun hasEnoughMembers(): Boolean {
         return teamMembers.size >= 2
     }
+
+    private fun isMemberCompositionComplete(): Boolean {
+        return teamMembers.size >= 4
+    }
+
+    @get:Transient
+    val buildingStatus: TeamBuildingStatus
+        get() = if (isMemberCompositionComplete()) {
+            TeamBuildingStatus.COMPLETED
+        } else if (hasEnoughMembers()) {
+            TeamBuildingStatus.IN_PROGRESS
+        } else {
+            TeamBuildingStatus.WAITING
+        }
+
 }

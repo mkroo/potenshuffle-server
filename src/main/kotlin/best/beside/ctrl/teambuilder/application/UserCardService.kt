@@ -1,9 +1,9 @@
 package best.beside.ctrl.teambuilder.application
 
+import best.beside.ctrl.teambuilder.domain.dto.UserCard
 import best.beside.ctrl.teambuilder.domain.dto.UserCardSearchConditions
 import best.beside.ctrl.teambuilder.domain.repository.UserInformationRepository
 import best.beside.ctrl.teambuilder.domain.sepcification.UserInformationSpecifications
-import best.beside.ctrl.teambuilder.domain.dto.UserCard
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.domain.Specification
