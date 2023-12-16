@@ -14,7 +14,6 @@ class TeamOfferEventPublisher(
         val event: Any? = when (responseType) {
             TeamOfferResponseType.ACCEPT -> TeamOfferAcceptEvent(teamOfferId, respondUserId)
             TeamOfferResponseType.DECLINE -> TeamOfferDeclineEvent(teamOfferId, respondUserId)
-            TeamOfferResponseType.WITHHOLD -> null
         }
 
         if (event != null) publisher.publishEvent(event)

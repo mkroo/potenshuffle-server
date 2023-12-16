@@ -34,7 +34,6 @@ class TeamOffer(
             return when (lastResponse.type) {
                 TeamOfferResponseType.ACCEPT -> TeamOfferStatus.ACCEPTED
                 TeamOfferResponseType.DECLINE -> TeamOfferStatus.DECLINED
-                TeamOfferResponseType.WITHHOLD -> TeamOfferStatus.PENDING
             }
         }
 

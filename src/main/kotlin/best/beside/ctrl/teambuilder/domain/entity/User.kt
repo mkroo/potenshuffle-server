@@ -18,4 +18,35 @@ class User(
 
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
     val information: UserInformation? = null
+
+    @OneToOne
+    private val teamMember: TeamMember? = null
+
+    @get:Transient
+    val team: Team?
+        get() = teamMember?.team
+
+    fun inviteTeamMember(user: User) {
+        user.checkTeamParticipationPossible()
+
+        val team = findOrCreateTeam()
+        team.addMember(user)
+    }
+
+    private fun findOrCreateTeam(): Team {
+        return team ?: Team("임시 팀 이름").apply { addMember(this@User) }
+    }
+
+    private fun checkTeamParticipationPossible() {
+        if (isTeamParticipationPossible()) return
+
+        throw IllegalStateException("이미 팀 빌딩 중인 유저입니다.")
+    }
+
+    private fun isTeamParticipationPossible(): Boolean {
+        if (teamBuildingStatus == TeamBuildingStatus.COMPLETED) return false
+        if (team != null) return false
+
+        return true
+    }
 }

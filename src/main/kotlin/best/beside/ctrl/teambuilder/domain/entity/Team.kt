@@ -11,7 +11,7 @@ class Team(
     val teamMembers: Set<TeamMember> = setOf(),
 ) : PrimaryKeyEntity() {
     fun addMember(user: User) {
-        teamMembers.plus(TeamMember(user, this))
+        teamMembers.plus(TeamMember(this, user))
         user.teamBuildingStatus = TeamBuildingStatus.IN_PROGRESS
     }
 }

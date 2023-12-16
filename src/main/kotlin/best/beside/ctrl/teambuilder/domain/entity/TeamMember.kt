@@ -6,8 +6,8 @@ import jakarta.persistence.OneToOne
 
 @Entity
 class TeamMember(
-    @OneToOne
-    val user: User,
     @ManyToOne
     val team: Team,
+    @OneToOne
+    val user: User,
 ) : PrimaryKeyEntity()
