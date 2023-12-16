@@ -3,6 +3,8 @@ package best.beside.ctrl.teambuilder.application
 import best.beside.ctrl.teambuilder.application.eventpublisher.TeamOfferEventPublisher
 import best.beside.ctrl.teambuilder.domain.dto.ReceivedTeamOffer
 import best.beside.ctrl.teambuilder.domain.entity.TeamOffer
+import best.beside.ctrl.teambuilder.domain.entity.User
+import best.beside.ctrl.teambuilder.domain.entity.UserInformation
 import best.beside.ctrl.teambuilder.domain.repository.TeamOfferRepository
 import best.beside.ctrl.teambuilder.domain.repository.UserRepository
 import best.beside.ctrl.teambuilder.domain.type.TeamOfferResponseType
@@ -37,23 +39,33 @@ class ReceivedTeamOfferService(
     private
 
     fun convertToReceivedTeamOffer(teamOffer: TeamOffer): ReceivedTeamOffer {
+        val teamMembers = teamOffer.sentUser.team?.teamMembers ?: emptyList()
+        val teamMemberUsers = teamMembers.map { it.user }
+
         return ReceivedTeamOffer(
             id = teamOffer.id,
             message = teamOffer.message,
-            sentUser = ReceivedTeamOffer.SentUser(
-                id = teamOffer.sentUser.id,
-                name = teamOffer.sentUser.name,
-                card = teamOffer.sentUser.information?.let {
-                    ReceivedTeamOffer.SentUserCard(
-                        occupation = it.occupation,
-                        employmentStatus = it.employmentStatus,
-                        keywords = it.keywords,
-                        briefIntroduction = it.briefIntroduction,
-                    )
-                },
-            ),
+            sentUser = buildUser(teamOffer.sentUser),
             status = teamOffer.status,
             receivedAt = teamOffer.createdAt,
+            sentUserTeamMembers = teamMemberUsers.map(::buildUser)
+        )
+    }
+
+    private fun buildUser(user: User): ReceivedTeamOffer.User {
+        return ReceivedTeamOffer.User(
+            id = user.id,
+            name = user.name,
+            card = user.information?.let(::buildUserCard),
+        )
+    }
+
+    private fun buildUserCard(userInformation: UserInformation): ReceivedTeamOffer.UserCard {
+        return ReceivedTeamOffer.UserCard(
+            occupation = userInformation.occupation,
+            employmentStatus = userInformation.employmentStatus,
+            keywords = userInformation.keywords,
+            briefIntroduction = userInformation.briefIntroduction,
         )
     }
 }

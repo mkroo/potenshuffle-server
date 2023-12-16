@@ -8,12 +8,13 @@ import java.time.LocalDateTime
 data class ReceivedTeamOffer(
     val id: Long,
     val message: String,
-    val sentUser: SentUser,
+    val sentUser: User,
     val status: TeamOfferStatus,
     val receivedAt: LocalDateTime,
+    val sentUserTeamMembers: List<User>,
 ) {
-    data class SentUser(val id: Long, val name: String, val card: SentUserCard?)
-    data class SentUserCard(
+    data class User(val id: Long, val name: String, val card: UserCard?)
+    data class UserCard(
         val occupation: Occupation,
         val employmentStatus: EmploymentStatus,
         val keywords: List<String>,
