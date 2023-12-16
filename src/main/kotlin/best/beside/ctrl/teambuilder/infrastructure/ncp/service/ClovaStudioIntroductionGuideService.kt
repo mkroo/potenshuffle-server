@@ -36,6 +36,19 @@ class ClovaStudioIntroductionGuideService(
         return ChatbotMessage.Bot(response.result.message.content)
     }
 
+    override fun complete(messages: List<ChatbotMessage>): String {
+        val systemMessage = ChatCompletionRequest.SystemMessage("주어진 대화의 정보를 바탕으로 자기소개를 완성합니다")
+        val conversationMessages = messages.map(::convert)
+
+        val request = ChatCompletionRequest(
+            messages = listOf(systemMessage) + conversationMessages
+        )
+
+        val response = clovaStudioClient.chatCompletion(modelName, apiKey, request)
+
+        return response.result.message.content
+    }
+
     private fun convert(message: ChatbotMessage): ChatCompletionRequest.Message {
         return when (message) {
             is ChatbotMessage.Bot -> ChatCompletionRequest.AssistantMessage(message.content)

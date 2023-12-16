@@ -1,6 +1,7 @@
 package best.beside.ctrl.teambuilder.application
 
 import best.beside.ctrl.teambuilder.domain.dto.ChatbotMessage
+import best.beside.ctrl.teambuilder.domain.dto.ConversationCompleteResponse
 import best.beside.ctrl.teambuilder.domain.dto.ConversationResponse
 import best.beside.ctrl.teambuilder.domain.entity.Conversation
 import best.beside.ctrl.teambuilder.domain.entity.ConversationMessage
@@ -13,6 +14,8 @@ class IntroductionGuideConversationService(
     private val userRepository: UserRepository,
     private val chatbotConversationRepository: ConversationRepository,
     private val introductionGuideService: IntroductionGuideService,
+    private val introductionSummarizeService: IntroductionSummarizeService,
+    private val introductionTokenizeService: IntroductionTokenizeService,
 ) {
     fun listMessages(userId: Long, conversationId: Long): ConversationResponse {
         val conversation = getConversation(userId, conversationId)
@@ -48,6 +51,22 @@ class IntroductionGuideConversationService(
         val savedConversation = chatbotConversationRepository.save(conversation)
 
         return convertToResponse(savedConversation)
+    }
+
+    fun completeConversation(userId: Long, conversationId: Long): ConversationCompleteResponse {
+        val conversation = getConversation(userId, conversationId)
+
+        val totalMessages = listPreviousMessages(conversation)
+
+        val introduction = introductionGuideService.complete(totalMessages)
+        val briefIntroduction = introductionSummarizeService.summarize(introduction)
+        val keywords = introductionTokenizeService.tokenize(introduction)
+
+        return ConversationCompleteResponse(
+            introduction = introduction,
+            briefIntroduction = briefIntroduction,
+            keywords = keywords,
+        )
     }
 
     private fun getConversation(userId: Long, conversationId: Long): Conversation {

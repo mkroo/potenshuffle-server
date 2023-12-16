@@ -1,6 +1,7 @@
 package best.beside.ctrl.teambuilder.presentation
 
 import best.beside.ctrl.teambuilder.application.IntroductionGuideConversationService
+import best.beside.ctrl.teambuilder.domain.dto.ConversationCompleteResponse
 import best.beside.ctrl.teambuilder.domain.dto.ConversationResponse
 import best.beside.ctrl.teambuilder.domain.valueobject.Account
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -40,5 +41,15 @@ class IntroductionGuideConversationController(
         @RequestBody params: SendMessageParams,
     ): ConversationResponse {
         return introductionGuideConversationService.respondConversation(account.userId, conversationId, params.message)
+    }
+
+
+    @PostMapping("/introduction-guide-conversations/{conversationId}/complete")
+    @SecurityRequirement(name = "JsonWebToken")
+    fun completeConversation(
+        @AuthenticationPrincipal account: Account,
+        @PathVariable conversationId: Long,
+    ): ConversationCompleteResponse {
+        return introductionGuideConversationService.completeConversation(account.userId, conversationId)
     }
 }
