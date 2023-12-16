@@ -21,9 +21,22 @@ class Team(
         user.teamBuildingStatus = TeamBuildingStatus.IN_PROGRESS
     }
 
-    fun leave(user: User) {
+    fun leave(user: User): User {
         teamMembers.minus(TeamMember(this, user))
         user.teamBuildingStatus = TeamBuildingStatus.WAITING
+
+        return user
+    }
+
+    fun merge(otherTeam: Team) {
+        val leftUsers = otherTeam.leaveAll()
+        leftUsers.forEach(::addMember)
+    }
+
+    private fun leaveAll(): List<User> {
+        val teamMemberUsers = teamMembers.map { it.user }
+
+        return teamMemberUsers.map(::leave)
     }
 
     fun hasEnoughMembers(): Boolean {
