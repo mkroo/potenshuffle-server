@@ -39,6 +39,10 @@ class UserTeamService(
 
         team.leave(user)
 
+        pruneOrSave(team)
+    }
+
+    private fun pruneOrSave(team: Team) {
         if (team.hasEnoughMembers()) {
             teamRepository.save(team)
         } else {
