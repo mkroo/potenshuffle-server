@@ -8,12 +8,7 @@ import jakarta.persistence.*
 @Entity
 class UserInformation(
     @OneToOne
-    @JoinColumn(
-        name="user_id",
-        unique=true,
-        nullable=false,
-        updatable=false
-    )
+    @JoinColumn(name="user_id")
     val user: User,
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
@@ -34,5 +29,18 @@ class UserInformation(
         params.employmentStatus?.let { employmentStatus = it }
         params.occupation?.let { occupation = it }
         params.keywords?.let { keywords = it }
+    }
+
+    companion object {
+        fun empty(user: User): UserInformation {
+            return UserInformation(
+                user = user,
+                occupation = Occupation.NONE,
+                employmentStatus = EmploymentStatus.NONE,
+                keywords = listOf(),
+                briefIntroduction = "",
+                introduction = "",
+            )
+        }
     }
 }

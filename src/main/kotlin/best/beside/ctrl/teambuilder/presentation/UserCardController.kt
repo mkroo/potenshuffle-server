@@ -6,7 +6,7 @@ import best.beside.ctrl.teambuilder.domain.type.EmploymentStatus
 import best.beside.ctrl.teambuilder.domain.type.Occupation
 import best.beside.ctrl.teambuilder.domain.type.TeamBuildingStatus
 import best.beside.ctrl.teambuilder.domain.valueobject.PageResponse
-import best.beside.ctrl.teambuilder.domain.valueobject.UserCard
+import best.beside.ctrl.teambuilder.domain.dto.UserCard
 import org.springframework.data.domain.PageRequest
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
