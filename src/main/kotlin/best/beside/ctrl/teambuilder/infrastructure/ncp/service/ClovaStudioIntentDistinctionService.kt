@@ -10,8 +10,8 @@ class ClovaStudioIntentDistinctionService(
     private val clovaStudioClient: ClovaStudioClient,
     properties: NaverCloudPlatformProperties,
 ) {
-    private val modelName = properties.chatCompletion.modelName
-    private val apiKey = properties.chatCompletion.apiKey
+    private val modelName = properties.intentRecognize.modelName
+    private val apiKey = properties.intentRecognize.apiKey
     private val systemMessage = ChatCompletionRequest.SystemMessage(
         """
             - 네가 물어본 질문에 의도에 알맞은 대답인지 판단한다.

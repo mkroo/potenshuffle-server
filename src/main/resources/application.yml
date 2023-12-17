@@ -26,10 +26,13 @@ naver-cloud-platform:
   api-gateway-key: rflS9gVt2b7XsuRWyGq408or1S1wY1RxYWpjnrPk
   chat-completion:
     model-name: HCX-002
-    api-key: NTA0MjU2MWZlZTcxNDJiYyzN9eY29hOzx+vbMwBbx8rpyfNrBeN0pHa0TA2NqhiQNBlD1Z2WkPdoEcGkPmMQ5a+IV6frnopnZvhGtsy19AiUaHk5hDi70ET94u64hksYfXiXCdHHvP+EvOj8P+CQ52B3FNoG7DHXKPCcrT35n2zfpICFhj+VASKyvmKvriG+Q+BYKtQhke79+5gKqXSBzsJeew42KjeT3d6464gQytc\=
+    api-key:
+  intent-recognize:
+    model-name: HCX-002
+    api-key:
   summarization:
     app-id: f2a211fb990844abb425d498680d7445
-    api-key: NTA0MjU2MWZlZTcxNDJiY1aM5JpMNr1vYMQHOi/ifhUlI8DadYG/B7WrQXcfae6ENuHt8r8NMmciHbvHVUHyfHfcwnOmA4OaxkcQzHl/hm1DoY7lHf5RycbUI4h+Vcf0Dq+JAnuA7l/ro3AFNHFUTFd+xHxoNWK3mLig0FW8wQ6EdOmffJ5cy9twu/ZDdaqQ
+    api-key:
 logging:
   level:
     httpclient:
