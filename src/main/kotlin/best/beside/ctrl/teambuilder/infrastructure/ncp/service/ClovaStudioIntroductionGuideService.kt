@@ -43,11 +43,19 @@ class ClovaStudioIntroductionGuideService(
     }
 
     override fun complete(messages: List<ChatbotMessage>): String {
-        val systemMessage = ChatCompletionRequest.SystemMessage("주어진 대화의 정보를 바탕으로 자기소개를 완성합니다")
+        val systemMessage = ChatCompletionRequest.SystemMessage("""
+            - 주어진 대화의 정보를 바탕으로 자기소개를 완성합니다
+            - 상냥한 말투로 자기소개를 완성합니다
+            - 각 항목별로 1~2문장으로 자기소개를 완성합니다
+            - 다른 얘기하지 않고 완성된 자기소개만 출력합니다
+        """.trimIndent())
         val conversationMessages = messages.map(::convert)
 
+        val guideMessage = ChatCompletionRequest.UserMessage("아래 대화내용을 바탕으로 자기소개를 만들어줘")
+        val introductionMessage = ChatCompletionRequest.UserMessage(conversationMessages.map { "${it.role}: ${it.content}" }.joinToString { "\n" })
+
         val request = ChatCompletionRequest(
-            messages = listOf(systemMessage) + conversationMessages
+            messages = listOf(systemMessage, guideMessage, introductionMessage) + conversationMessages
         )
 
         val response = clovaStudioClient.chatCompletion(modelName, apiKey, request)
