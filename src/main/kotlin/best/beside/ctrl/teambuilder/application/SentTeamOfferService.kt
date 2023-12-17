@@ -1,7 +1,6 @@
 package best.beside.ctrl.teambuilder.application
 
 import best.beside.ctrl.teambuilder.domain.dto.TeamOfferResponse
-import best.beside.ctrl.teambuilder.domain.entity.TeamOffer
 import best.beside.ctrl.teambuilder.domain.repository.TeamOfferRepository
 import best.beside.ctrl.teambuilder.domain.repository.UserRepository
 import best.beside.ctrl.teambuilder.domain.valueobject.PageResponse
