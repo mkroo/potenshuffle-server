@@ -55,14 +55,22 @@ class IntroductionGuideConversationService(
         val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, answer)
 
         return if (isAppropriateAnswer) {
-            val userMessage = ChatbotMessage.User(answer)
-            listOf(introductionGuideService.answer(previousMessages, userMessage))
+            newQuestionMessages(previousMessages, answer)
         } else {
-            listOf(
-                ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!"),
-                ChatbotMessage.Bot(lastMessage)
-            )
+            reQuestionMessages(lastMessage)
         }
+    }
+
+    private fun newQuestionMessages(previousMessages: List<ChatbotMessage>, answer: String): List<ChatbotMessage.Bot> {
+        val userMessage = ChatbotMessage.User(answer)
+        return listOf(introductionGuideService.answer(previousMessages, userMessage))
+    }
+
+    private fun reQuestionMessages(lastQuestion: String): List<ChatbotMessage.Bot> {
+        return listOf(
+            ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!"),
+            ChatbotMessage.Bot(lastQuestion)
+        )
     }
 
     fun completeConversation(userId: Long, conversationId: Long): ConversationCompleteResponse {
