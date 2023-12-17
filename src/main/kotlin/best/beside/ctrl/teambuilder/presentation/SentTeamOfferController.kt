@@ -1,7 +1,7 @@
 package best.beside.ctrl.teambuilder.presentation
 
 import best.beside.ctrl.teambuilder.application.SentTeamOfferService
-import best.beside.ctrl.teambuilder.domain.dto.SentTeamOffer
+import best.beside.ctrl.teambuilder.domain.dto.TeamOfferResponse
 import best.beside.ctrl.teambuilder.domain.valueobject.Account
 import best.beside.ctrl.teambuilder.domain.valueobject.PageResponse
 import io.swagger.v3.oas.annotations.security.SecurityRequirement
@@ -21,7 +21,7 @@ class SentTeamOfferController(
         @AuthenticationPrincipal account: Account,
         @RequestParam(required = false, defaultValue = "0") page: Int,
         @RequestParam(required = false, defaultValue = "10") size: Int,
-    ): PageResponse<SentTeamOffer> {
+    ): PageResponse<TeamOfferResponse.Sent> {
         val pageable = PageRequest.of(page, size)
 
         return sentTeamOfferService.listSentTeamOffers(account.userId, pageable)

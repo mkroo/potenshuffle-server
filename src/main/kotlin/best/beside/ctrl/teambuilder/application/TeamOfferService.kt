@@ -1,24 +1,26 @@
 package best.beside.ctrl.teambuilder.application
 
+import best.beside.ctrl.teambuilder.domain.dto.TeamOfferParams
 import best.beside.ctrl.teambuilder.domain.dto.TeamOfferResponse
 import best.beside.ctrl.teambuilder.domain.entity.TeamOffer
 import best.beside.ctrl.teambuilder.domain.repository.TeamOfferRepository
 import best.beside.ctrl.teambuilder.domain.repository.UserRepository
-import best.beside.ctrl.teambuilder.domain.valueobject.PageResponse
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service
-class SentTeamOfferService(
+class TeamOfferService(
     private val userRepository: UserRepository,
     private val teamOfferRepository: TeamOfferRepository,
     private val converter: TeamOfferResponseConverter,
 ) {
-    fun listSentTeamOffers(userId: Long, pageable: Pageable): PageResponse<TeamOfferResponse.Sent> {
-        val sentUser = userRepository.getById(userId)
-        val teamOfferPage = teamOfferRepository.findAllBySentUser(sentUser, pageable)
-        val sentTeamOfferPage = teamOfferPage.map(converter::toSentTeamOffer)
+    fun sendTeamOffer(sendUserId: Long, params: TeamOfferParams): TeamOfferResponse.Sent {
+        val receiveUser = userRepository.getById(params.offerReceiveUserId)
+        val sendUser = userRepository.getById(sendUserId)
 
-        return PageResponse.of(sentTeamOfferPage)
+        val teamOffer = TeamOffer(sentUser = sendUser, receivedUser = receiveUser)
+
+        teamOfferRepository.save(teamOffer)
+
+        return converter.toSentTeamOffer(teamOffer)
     }
 }

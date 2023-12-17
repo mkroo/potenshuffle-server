@@ -10,12 +10,9 @@ import jakarta.persistence.OneToMany
 @Entity
 class TeamOffer(
     @ManyToOne
-    val team: Team,
-    @ManyToOne
     val sentUser: User,
     @ManyToOne
     val receivedUser: User,
-    val message: String,
 ) : PrimaryKeyEntity() {
     @OneToMany
     val responses: MutableList<TeamOfferResponse> = mutableListOf()

@@ -1,7 +1,7 @@
 package best.beside.ctrl.teambuilder.presentation
 
 import best.beside.ctrl.teambuilder.application.ReceivedTeamOfferService
-import best.beside.ctrl.teambuilder.domain.dto.ReceivedTeamOffer
+import best.beside.ctrl.teambuilder.domain.dto.TeamOfferResponse
 import best.beside.ctrl.teambuilder.domain.type.TeamOfferResponseType
 import best.beside.ctrl.teambuilder.domain.valueobject.Account
 import best.beside.ctrl.teambuilder.domain.valueobject.PageResponse
@@ -20,7 +20,7 @@ class ReceivedTeamOfferController(
         @AuthenticationPrincipal account: Account,
         @RequestParam(required = false, defaultValue = "0") page: Int,
         @RequestParam(required = false, defaultValue = "10") size: Int,
-    ): PageResponse<ReceivedTeamOffer> {
+    ): PageResponse<TeamOfferResponse.Received> {
         val pageable = PageRequest.of(page, size)
 
         return receivedTeamOfferService.listReceivedTeamOffers(account.userId, pageable)
