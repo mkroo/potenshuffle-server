@@ -36,7 +36,7 @@ class SecurityConfig(
                 it.requestMatchers("/favicon.ico").permitAll()
                 it.requestMatchers("/api-docs/**").permitAll()
                 it.requestMatchers("/swagger-ui/**").permitAll()
-                it.requestMatchers("/sign-in", "/sign-up", "/user-cards").permitAll()
+                it.requestMatchers("/sign-in", "/sign-up", "/user-cards", "/teams").permitAll()
                 it.requestMatchers("/users/*/information").permitAll()
                 it.anyRequest().authenticated()
             }
