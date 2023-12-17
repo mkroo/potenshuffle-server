@@ -7,6 +7,7 @@ import best.beside.ctrl.teambuilder.domain.entity.Conversation
 import best.beside.ctrl.teambuilder.domain.entity.ConversationMessage
 import best.beside.ctrl.teambuilder.domain.repository.ConversationRepository
 import best.beside.ctrl.teambuilder.domain.repository.UserRepository
+import best.beside.ctrl.teambuilder.infrastructure.ncp.service.ClovaStudioIntentDistinctionService
 import org.springframework.stereotype.Service
 
 @Service
@@ -16,6 +17,7 @@ class IntroductionGuideConversationService(
     private val introductionGuideService: IntroductionGuideService,
     private val introductionSummarizeService: IntroductionSummarizeService,
     private val introductionTokenizeService: IntroductionTokenizeService,
+    private val intentDistinctionService: ClovaStudioIntentDistinctionService
 ) {
     fun listMessages(userId: Long, conversationId: Long): ConversationResponse {
         val conversation = getConversation(userId, conversationId)
@@ -26,13 +28,8 @@ class IntroductionGuideConversationService(
     fun startConversation(userId: Long): ConversationResponse {
         val user = userRepository.getById(userId)
         val conversation = Conversation(user)
-        conversation.addBotMessage(
-            """
-            안녕하세요. 저는 회원님의 자기소개글 작성을 도와주는 AI "포셔"입니다.
-            회원님을 가장 잘 표현할 수 있는 글을 적어주세요.
-            추가로 작성이 필요한 부분이 있다면 제가 도와드릴게요!
-        """.trimIndent()
-        )
+        conversation.addBotMessage("안녕하세요.\n저는 회원님의 자기소개글 작성을 도와주는 AI \"포셔\"입니다.")
+        conversation.addBotMessage("${user.name}님은 어떤분야에서 일을 하고 계신가요?")
 
         val savedConversation = chatbotConversationRepository.save(conversation)
 
@@ -41,18 +38,28 @@ class IntroductionGuideConversationService(
 
     fun respondConversation(userId: Long, conversationId: Long, message: String): ConversationResponse {
         val conversation = getConversation(userId, conversationId)
-
         val previousMessages = listPreviousMessages(conversation)
-        val userMessage = ChatbotMessage.User(message)
 
-        val botResponseMessage = introductionGuideService.answer(previousMessages, userMessage)
+        val botResponseMessage = generateBotQuestion(previousMessages, message)
 
-        conversation.addUserMessage(userMessage.content)
+        conversation.addUserMessage(message)
         conversation.addBotMessage(botResponseMessage.content)
 
         val savedConversation = chatbotConversationRepository.save(conversation)
 
         return convertToResponse(savedConversation)
+    }
+
+    private fun generateBotQuestion(previousMessages: List<ChatbotMessage>, answer: String): ChatbotMessage.Bot {
+        val lastMessage = previousMessages.last().content
+        val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, answer)
+
+        return if (isAppropriateAnswer) {
+            ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!\n$lastMessage")
+        } else {
+            val userMessage = ChatbotMessage.User(answer)
+            introductionGuideService.answer(previousMessages, userMessage)
+        }
     }
 
     fun completeConversation(userId: Long, conversationId: Long): ConversationCompleteResponse {
