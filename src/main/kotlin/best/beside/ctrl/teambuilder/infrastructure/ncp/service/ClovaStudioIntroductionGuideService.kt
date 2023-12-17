@@ -44,13 +44,13 @@ class ClovaStudioIntroductionGuideService(
     }
 
     private fun extractIntroduction(message: String): String? {
-        val firstIndex = message.lastIndexOf("[자기소개 시작]")
+        val firstIndex = message.indexOf("[자기소개 시작]")
         val lastIndex = message.indexOf("[자기소개 끝]")
 
         if (firstIndex == -1) return null
         if (lastIndex == -1) return null
 
-        return message.slice(firstIndex..lastIndex)
+        return message.slice((firstIndex + 9)..< lastIndex).trim()
     }
 
     override fun complete(messages: List<ChatbotMessage>): String {
