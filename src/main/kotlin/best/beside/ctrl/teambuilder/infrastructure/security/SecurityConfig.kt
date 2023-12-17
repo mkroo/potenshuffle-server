@@ -34,8 +34,7 @@ class SecurityConfig(
             }
             .authorizeHttpRequests {
                 it.requestMatchers("/favicon.ico").permitAll()
-                it.requestMatchers("/api-docs").permitAll()
-                it.requestMatchers("/api-docs.json/**").permitAll()
+                it.requestMatchers("/api-docs/**").permitAll()
                 it.requestMatchers("/swagger-ui/**").permitAll()
                 it.requestMatchers("/sign-in", "/sign-up", "/user-cards").permitAll()
                 it.requestMatchers("/users/*/information").permitAll()
