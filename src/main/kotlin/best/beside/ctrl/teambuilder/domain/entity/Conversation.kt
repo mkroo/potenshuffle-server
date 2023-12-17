@@ -8,7 +8,7 @@ import jakarta.persistence.OneToMany
 @Entity
 class Conversation(
     @ManyToOne(optional = false)
-    val user: User
+    val user: User,
 ) : PrimaryKeyEntity() {
     fun listPreviousMessages(): List<ConversationMessage> {
         return messages.toList()

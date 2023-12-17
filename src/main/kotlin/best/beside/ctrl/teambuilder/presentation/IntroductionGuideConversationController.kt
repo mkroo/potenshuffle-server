@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*
 
 @RestController
 class IntroductionGuideConversationController(
-    private val introductionGuideConversationService: IntroductionGuideConversationService
+    private val introductionGuideConversationService: IntroductionGuideConversationService,
 ) {
     data class SendMessageParams(
         val message: String,
@@ -28,7 +28,7 @@ class IntroductionGuideConversationController(
     @PostMapping("/introduction-guide-conversations")
     @SecurityRequirement(name = "JsonWebToken")
     fun startConversation(
-        @AuthenticationPrincipal account: Account
+        @AuthenticationPrincipal account: Account,
     ): ConversationResponse {
         return introductionGuideConversationService.startConversation(account.userId)
     }

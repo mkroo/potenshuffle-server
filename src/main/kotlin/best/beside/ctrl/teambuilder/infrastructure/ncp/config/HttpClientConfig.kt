@@ -9,7 +9,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory
 
 @Configuration
 class HttpClientConfig(
-    val properties: NaverCloudPlatformProperties
+    val properties: NaverCloudPlatformProperties,
 ) {
     @Bean
     fun clovaStudioClient(builder: RestClient.Builder): ClovaStudioClient {

@@ -17,7 +17,7 @@ class IntroductionGuideConversationService(
     private val introductionGuideService: IntroductionGuideService,
     private val introductionSummarizeService: IntroductionSummarizeService,
     private val introductionTokenizeService: IntroductionTokenizeService,
-    private val intentDistinctionService: ClovaStudioIntentDistinctionService
+    private val intentDistinctionService: ClovaStudioIntentDistinctionService,
 ) {
     fun listMessages(userId: Long, conversationId: Long): ConversationResponse {
         val conversation = getConversation(userId, conversationId)

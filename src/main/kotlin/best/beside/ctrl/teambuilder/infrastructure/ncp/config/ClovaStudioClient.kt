@@ -17,14 +17,14 @@ interface ClovaStudioClient {
     fun chatCompletion(
         @PathVariable modelName: String,
         @RequestHeader("X-NCP-CLOVASTUDIO-API-KEY") apikey: String,
-        @RequestBody request: ChatCompletionRequest
+        @RequestBody request: ChatCompletionRequest,
     ): ClovaResponse<ChatCompletionResult>
 
     @PostExchange("/testapp/v1/api-tools/summarization/v2/{appId}")
     fun summarize(
         @PathVariable appId: String,
         @RequestHeader("X-NCP-CLOVASTUDIO-API-KEY") apikey: String,
-        @RequestBody request: SummarizationRequest
+        @RequestBody request: SummarizationRequest,
     ): ClovaResponse<SummarizationResult>
 }
 
