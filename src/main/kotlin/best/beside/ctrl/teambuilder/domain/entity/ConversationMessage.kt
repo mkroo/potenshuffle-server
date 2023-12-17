@@ -11,5 +11,4 @@ class ConversationMessage(
     val role: String,
     @Column(columnDefinition = "TEXT")
     val content: String,
-): PrimaryKeyEntity() {
-}
+) : PrimaryKeyEntity()

@@ -9,7 +9,7 @@ import jakarta.persistence.OneToMany
 class Conversation(
     @ManyToOne(optional = false)
     val user: User
-): PrimaryKeyEntity() {
+) : PrimaryKeyEntity() {
     fun listPreviousMessages(): List<ConversationMessage> {
         return messages.toList()
     }

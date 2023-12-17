@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class ClovaStudioIntroductionTokenizeService(
     private val clovaStudioClient: ClovaStudioClient,
     properties: NaverCloudPlatformProperties,
-): IntroductionTokenizeService {
+) : IntroductionTokenizeService {
     private val modelName = properties.chatCompletion.modelName
     private val apiKey = properties.chatCompletion.apiKey
     private val systemMessage = ChatCompletionRequest.SystemMessage(

@@ -11,5 +11,5 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 class TeamBuilderApplication
 
 fun main(args: Array<String>) {
-	runApplication<TeamBuilderApplication>(*args)
+    runApplication<TeamBuilderApplication>(*args)
 }

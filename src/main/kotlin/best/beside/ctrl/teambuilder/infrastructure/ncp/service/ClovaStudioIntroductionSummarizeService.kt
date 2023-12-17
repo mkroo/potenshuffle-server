@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 class ClovaStudioIntroductionSummarizeService(
     private val clovaStudioClient: ClovaStudioClient,
     properties: NaverCloudPlatformProperties,
-): IntroductionSummarizeService {
+) : IntroductionSummarizeService {
     private val appId = properties.summarization.appId
     private val apiKey = properties.summarization.apiKey
 

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 class ClovaStudioIntroductionGuideService(
     private val clovaStudioClient: ClovaStudioClient,
     properties: NaverCloudPlatformProperties,
-): IntroductionGuideService {
+) : IntroductionGuideService {
     private val modelName = properties.chatCompletion.modelName
     private val apiKey = properties.chatCompletion.apiKey
     private val systemMessage = ChatCompletionRequest.SystemMessage(

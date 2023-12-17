@@ -26,11 +26,13 @@ class IntroductionGuideConversationService(
     fun startConversation(userId: Long): ConversationResponse {
         val user = userRepository.getById(userId)
         val conversation = Conversation(user)
-        conversation.addBotMessage("""
+        conversation.addBotMessage(
+            """
             안녕하세요. 저는 회원님의 자기소개글 작성을 도와주는 AI "포셔"입니다.
             회원님을 가장 잘 표현할 수 있는 글을 적어주세요.
             추가로 작성이 필요한 부분이 있다면 제가 도와드릴게요!
-        """.trimIndent())
+        """.trimIndent()
+        )
 
         val savedConversation = chatbotConversationRepository.save(conversation)
 

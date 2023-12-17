@@ -8,7 +8,7 @@ import jakarta.persistence.*
 @Entity
 class UserInformation(
     @OneToOne
-    @JoinColumn(name="user_id")
+    @JoinColumn(name = "user_id")
     val user: User,
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)

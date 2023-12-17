@@ -11,7 +11,7 @@ data class ChatCompletionRequest(
     val includeAiFilters: Boolean = true,
 ) {
     abstract class Message(val role: String, val content: String)
-    class SystemMessage(content: String): Message("system", content)
-    class UserMessage(content: String): Message("user", content)
-    class AssistantMessage(content: String): Message("assistant", content)
+    class SystemMessage(content: String) : Message("system", content)
+    class UserMessage(content: String) : Message("user", content)
+    class AssistantMessage(content: String) : Message("assistant", content)
 }

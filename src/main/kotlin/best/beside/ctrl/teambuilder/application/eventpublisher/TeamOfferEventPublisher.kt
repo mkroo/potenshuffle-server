@@ -11,7 +11,7 @@ class TeamOfferEventPublisher(
     private val publisher: ApplicationEventPublisher,
 ) {
     fun teamOfferResponded(teamOfferId: Long, respondUserId: Long, responseType: TeamOfferResponseType) {
-        val event: Any? = when (responseType) {
+        val event: Any = when (responseType) {
             TeamOfferResponseType.ACCEPT -> TeamOfferAcceptEvent(teamOfferId, respondUserId)
             TeamOfferResponseType.DECLINE -> TeamOfferDeclineEvent(teamOfferId, respondUserId)
         }
