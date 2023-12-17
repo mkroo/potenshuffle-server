@@ -3,6 +3,7 @@ package best.beside.ctrl.teambuilder.domain.entity
 import best.beside.ctrl.teambuilder.domain.exception.ForbiddenException
 import best.beside.ctrl.teambuilder.domain.type.TeamOfferResponseType
 import best.beside.ctrl.teambuilder.domain.type.TeamOfferStatus
+import jakarta.persistence.CascadeType
 import jakarta.persistence.Entity
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.OneToMany
@@ -14,7 +15,7 @@ class TeamOffer(
     @ManyToOne
     val receivedUser: User,
 ) : PrimaryKeyEntity() {
-    @OneToMany
+    @OneToMany(cascade = [CascadeType.ALL])
     val responses: MutableList<TeamOfferResponse> = mutableListOf()
 
     fun response(receivedUser: User, type: TeamOfferResponseType) {
