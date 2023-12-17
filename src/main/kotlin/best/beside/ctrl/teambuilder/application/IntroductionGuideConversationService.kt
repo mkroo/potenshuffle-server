@@ -55,10 +55,10 @@ class IntroductionGuideConversationService(
         val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, answer)
 
         return if (isAppropriateAnswer) {
-            ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!\n$lastMessage")
-        } else {
             val userMessage = ChatbotMessage.User(answer)
             introductionGuideService.answer(previousMessages, userMessage)
+        } else {
+            ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!\n$lastMessage")
         }
     }
 
