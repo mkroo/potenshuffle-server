@@ -7,6 +7,7 @@ import best.beside.ctrl.teambuilder.domain.type.TeamBuildingStatus
 
 data class UserCard(
     val user: User,
+    val introduction: String,
     val occupation: Occupation,
     val employmentStatus: EmploymentStatus,
     val keywords: List<String>,
@@ -24,6 +25,7 @@ data class UserCard(
                     name = user.name,
                     teamBuildingStatus = user.teamBuildingStatus
                 ),
+                introduction = userInformation.introduction,
                 occupation = userInformation.occupation,
                 employmentStatus = userInformation.employmentStatus,
                 keywords = userInformation.keywords,
