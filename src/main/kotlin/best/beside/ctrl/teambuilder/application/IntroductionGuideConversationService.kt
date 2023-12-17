@@ -98,8 +98,8 @@ class IntroductionGuideConversationService(
         )
     }
 
-    private fun completeConversation(conversation: Conversation): ConversationCompleteResponse {
-        val introduction = conversation.result ?: throw IllegalStateException("Conversation is not completed")
+    private fun completeConversation(conversation: Conversation): ConversationCompleteResponse? {
+        val introduction = conversation.result ?: return null
         val briefIntroduction = introductionSummarizeService.summarize(introduction)
         val keywords = introductionTokenizeService.tokenize(introduction)
 
