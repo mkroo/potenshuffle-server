@@ -40,25 +40,28 @@ class IntroductionGuideConversationService(
         val conversation = getConversation(userId, conversationId)
         val previousMessages = listPreviousMessages(conversation)
 
-        val botResponseMessage = generateBotQuestion(previousMessages, message)
+        val botResponseMessages = generateBotQuestions(previousMessages, message)
 
         conversation.addUserMessage(message)
-        conversation.addBotMessage(botResponseMessage.content)
+        botResponseMessages.forEach { conversation.addBotMessage(it.content) }
 
         val savedConversation = chatbotConversationRepository.save(conversation)
 
         return convertToResponse(savedConversation)
     }
 
-    private fun generateBotQuestion(previousMessages: List<ChatbotMessage>, answer: String): ChatbotMessage.Bot {
+    private fun generateBotQuestions(previousMessages: List<ChatbotMessage>, answer: String): List<ChatbotMessage.Bot> {
         val lastMessage = previousMessages.last().content
         val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, answer)
 
         return if (isAppropriateAnswer) {
             val userMessage = ChatbotMessage.User(answer)
-            introductionGuideService.answer(previousMessages, userMessage)
+            listOf(introductionGuideService.answer(previousMessages, userMessage))
         } else {
-            ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!\n$lastMessage")
+            listOf(
+                ChatbotMessage.Bot("그렇군요, 다만 자기소개를 작성하기 위해서는 제가 물어본 질문에 대답을 해주셔야해요!"),
+                ChatbotMessage.Bot(lastMessage)
+            )
         }
     }
 
