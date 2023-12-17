@@ -24,4 +24,10 @@ class Conversation(
 
     @OneToMany(cascade = [CascadeType.ALL], mappedBy = "conversation")
     private val messages: MutableList<ConversationMessage> = mutableListOf()
+
+    var result: String? = null
+
+    fun markAsCompleted(result: String) {
+        this.result = result
+    }
 }

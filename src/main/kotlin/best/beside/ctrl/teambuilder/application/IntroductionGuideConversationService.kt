@@ -40,30 +40,39 @@ class IntroductionGuideConversationService(
         val conversation = getConversation(userId, conversationId)
         val previousMessages = listPreviousMessages(conversation)
 
-        val botResponseMessages = generateBotQuestions(previousMessages, message)
+        val lastMessage = previousMessages.last().content
+        val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, message)
 
-        conversation.addUserMessage(message)
-        botResponseMessages.forEach { conversation.addBotMessage(it.content) }
+        if (!isAppropriateAnswer) {
+            val botResponseMessages = reQuestionMessages(lastMessage)
+            conversation.addUserMessage(message)
+            botResponseMessages.forEach { conversation.addBotMessage(it.content) }
+        } else {
+            when (val botRespondMessage = newQuestionMessages(previousMessages, message)) {
+                is ChatbotMessage.Bot -> {
+                    conversation.addUserMessage(message)
+                    conversation.addBotMessage(botRespondMessage.content)
+                }
+
+                is ChatbotMessage.Complete -> {
+                    conversation.addUserMessage(message)
+                    conversation.markAsCompleted(botRespondMessage.content)
+                }
+
+                else -> {
+                    throw IllegalArgumentException("Unknown bot respond message: $botRespondMessage")
+                }
+            }
+        }
 
         val savedConversation = chatbotConversationRepository.save(conversation)
 
         return convertToResponse(savedConversation)
     }
 
-    private fun generateBotQuestions(previousMessages: List<ChatbotMessage>, answer: String): List<ChatbotMessage.Bot> {
-        val lastMessage = previousMessages.last().content
-        val isAppropriateAnswer = intentDistinctionService.isAppropriateAnswer(lastMessage, answer)
-
-        return if (isAppropriateAnswer) {
-            newQuestionMessages(previousMessages, answer)
-        } else {
-            reQuestionMessages(lastMessage)
-        }
-    }
-
-    private fun newQuestionMessages(previousMessages: List<ChatbotMessage>, answer: String): List<ChatbotMessage.Bot> {
+    private fun newQuestionMessages(previousMessages: List<ChatbotMessage>, answer: String): ChatbotMessage {
         val userMessage = ChatbotMessage.User(answer)
-        return listOf(introductionGuideService.answer(previousMessages, userMessage))
+        return introductionGuideService.answer(previousMessages, userMessage)
     }
 
     private fun reQuestionMessages(lastQuestion: String): List<ChatbotMessage.Bot> {
@@ -89,6 +98,18 @@ class IntroductionGuideConversationService(
         )
     }
 
+    private fun completeConversation(conversation: Conversation): ConversationCompleteResponse {
+        val introduction = conversation.result ?: throw IllegalStateException("Conversation is not completed")
+        val briefIntroduction = introductionSummarizeService.summarize(introduction)
+        val keywords = introductionTokenizeService.tokenize(introduction)
+
+        return ConversationCompleteResponse(
+            introduction = introduction,
+            briefIntroduction = briefIntroduction,
+            keywords = keywords,
+        )
+    }
+
     private fun getConversation(userId: Long, conversationId: Long): Conversation {
         val user = userRepository.getById(userId)
         return chatbotConversationRepository.getByIdAndUser(conversationId, user)
@@ -101,7 +122,8 @@ class IntroductionGuideConversationService(
     private fun convertToResponse(conversation: Conversation): ConversationResponse {
         return ConversationResponse(
             id = conversation.id,
-            messages = listPreviousMessages(conversation)
+            messages = listPreviousMessages(conversation),
+            result = completeConversation(conversation)
         )
     }
 
